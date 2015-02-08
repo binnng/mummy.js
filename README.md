@@ -1,1 +1,1 @@
-[doc](http://htmlpreview.github.io/?https://www.github.com/binnng/mummy.js/docs/mummy.html)
+[doc](http://htmlpreview.github.io/?https://github.com/binnng/mummy.js/blob/master/docs/mummy.html)
