@@ -1,0 +1,1 @@
+[doc](http://htmlpreview.github.io/?https://www.github.com/binnng/mummy.js/docs/mummy.html)

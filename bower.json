@@ -1,0 +1,20 @@
+{
+  "name": "mummy.js",
+  "version": "0.0.1",
+  "main": "mummy.js",
+  "src": [
+    "banner",
+    "core",
+    "event",
+    "dom",
+    "css",
+    "entry"
+  ],
+  "ignore": [
+    "node_modules",
+    "component.json",
+    "package.json",
+    "tests",
+    "demo"
+  ]
+}

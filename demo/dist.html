@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>qinjs</title>
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+
+</head>
+<body>
+	<div id="box">
+		<p>text 1</p>	
+		<p>text 2</p>	
+	</div>
+	<script type="text/javascript" src="http://binnng.github.io/debug.js/build/debug.min.js"></script>
+	<script type="text/javascript" src="../dist/mummy.js"></script>
+	<script type="text/javascript">
+		var p = $("#box");
+
+		console.log(p)
+
+		p.on("click", function(event) {
+			debug.log(this.id);
+		});
+
+	</script>
+</body>
+</html>

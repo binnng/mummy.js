@@ -1,0 +1,36 @@
+{
+  "name": "mummy.js",
+  "version": "0.0.1",
+  "description": "",
+  "main": "mummy.js",
+  "scripts": {
+    "doc": "./node_modules/docco/bin/docco mummy.coffee"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/binnng/mummy.js.git"
+  },
+  "keywords": [
+    "jquery",
+    "zepto",
+    "selector"
+  ],
+  "author": "binnng",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/binnng/mummy.js/issues"
+  },
+  "homepage": "https://github.com/binnng/mummy.js",
+  "devDependencies": {
+    "gulp-uglify": "~1.1.0",
+    "gulp": "~3.8.10",
+    "docco": "~0.7.0",
+    "gulp-concat": "~2.4.3",
+    "gulp-load-plugins": "~0.8.0",
+    "gulp-coffee": "~2.3.1",
+    "read-json-sync": "~1.0.0",
+    "gulp-docco": "0.0.4",
+    "gulp-clean": "~0.3.1",
+    "gulp-size": "~1.2.0"
+  }
+}
