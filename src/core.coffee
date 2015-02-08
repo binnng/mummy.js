@@ -61,6 +61,10 @@ camel = (s) ->
     letter.toUpperCase()
   )
 
+merge = (dest, src) ->
+  for name of src
+    dest[name] = src[name]
+
 # 数组中是否有这个元素
 Array::has = (v) ->
   @.indexOf(v) isnt -1

@@ -29,54 +29,59 @@ dom.createElement = (tag, attr) ->
 
   el
 
-Node::html = (html) ->
-  node = @
-  if undefined is html
-    node.innerHTML
-  else if 'string' is typeof html
-    node.innerHTML = html
+merge Node::, 
+
+  html: (html) ->
+    node = @
+    if undefined is html
+      node.innerHTML
+    else if 'string' is typeof html
+      node.innerHTML = html
+      node
+
+  attr: (attr, value) ->
+    node = @
+    return if 'string' isnt typeof attr
+    if undefined is value
+      node.getAttribute(attr)
+    else if 'string' is typeof attr
+      node.setAttribute attr, value
+      node
+
+  append: (el) ->
+    node = @
+    node.appendChild(el)
     node
 
-Node::attr = (attr, value) ->
-  node = @
-  return if 'string' isnt typeof attr
-  if undefined is value
-    node.getAttribute(attr)
-  else if 'string' is typeof attr
-    node.setAttribute attr, value
-    node
-
-NodeList::eq = (i) ->
-  node = @
-  if i < 0 then node[node.length - i] else node[i]
-
-Node::append = (el) ->
-  node = @
-  node.appendChild(el)
-  node
-
-Node::height = (height) ->
-  node = @
-  if undefined is height
-    if isWindow(node)
-      height = node['innerHeight']
+  height: (height) ->
+    node = @
+    if undefined is height
+      if isWindow(node)
+        height = node['innerHeight']
+      else
+        height = node.offsetHeight
+      height
     else
-      height = node.offsetHeight
-    height
-  else
-    height = "#{height}"
-    node.style.height = height.replace('px', '') + 'px'
+      height = "#{height}"
+      node.style.height = height.replace('px', '') + 'px'
+      node
+
+  show: ->
+    node = @
+    style(node, "display", "block")
     node
 
-Node::show = ->
-  node = @
-  style(node, "display", "block")
-  node
+  hide: ->
+    node = @
+    style(node, "display", "none")
+    node
 
-Node::hide = ->
-  node = @
-  style(node, "display", "none")
-  node
+
+
+merge NodeList::, 
+  eq: (i) ->
+    node = @
+    if i < 0 then node[node.length - i] else node[i]
 
 # 对class的操作
 # 支持传入单个class，也可以传入空格分割的字符串

@@ -1,5 +1,5 @@
 (function() {
-  var $, AUTHOR, NAME, Node, NodeList, TRIGGER, VERSION, camel, className, createElement, document, dom, entry, getClassNameArr, isArray, isDocument, isWindow, name, nextSibling, nodeFuncs, noop, querySelectorAll, style, window, _i, _len;
+  var $, AUTHOR, NAME, Node, NodeList, TRIGGER, VERSION, camel, className, createElement, document, dom, entry, getClassNameArr, isArray, isDocument, isWindow, merge, name, nextSibling, nodeFuncs, noop, querySelectorAll, style, window, _i, _len;
 
   AUTHOR = "binnng";
 
@@ -76,6 +76,15 @@
     });
   };
 
+  merge = function(dest, src) {
+    var name, _results;
+    _results = [];
+    for (name in src) {
+      _results.push(dest[name] = src[name]);
+    }
+    return _results;
+  };
+
   Array.prototype.has = function(v) {
     return this.indexOf(v) !== -1;
   };
@@ -146,78 +155,77 @@
     return el;
   };
 
-  Node.prototype.html = function(html) {
-    var node;
-    node = this;
-    if (void 0 === html) {
-      return node.innerHTML;
-    } else if ('string' === typeof html) {
-      node.innerHTML = html;
-      return node;
-    }
-  };
-
-  Node.prototype.attr = function(attr, value) {
-    var node;
-    node = this;
-    if ('string' !== typeof attr) {
-      return;
-    }
-    if (void 0 === value) {
-      return node.getAttribute(attr);
-    } else if ('string' === typeof attr) {
-      node.setAttribute(attr, value);
-      return node;
-    }
-  };
-
-  NodeList.prototype.eq = function(i) {
-    var node;
-    node = this;
-    if (i < 0) {
-      return node[node.length - i];
-    } else {
-      return node[i];
-    }
-  };
-
-  Node.prototype.append = function(el) {
-    var node;
-    node = this;
-    node.appendChild(el);
-    return node;
-  };
-
-  Node.prototype.height = function(height) {
-    var node;
-    node = this;
-    if (void 0 === height) {
-      if (isWindow(node)) {
-        height = node['innerHeight'];
-      } else {
-        height = node.offsetHeight;
+  merge(Node.prototype, {
+    html: function(html) {
+      var node;
+      node = this;
+      if (void 0 === html) {
+        return node.innerHTML;
+      } else if ('string' === typeof html) {
+        node.innerHTML = html;
+        return node;
       }
-      return height;
-    } else {
-      height = "" + height;
-      node.style.height = height.replace('px', '') + 'px';
+    },
+    attr: function(attr, value) {
+      var node;
+      node = this;
+      if ('string' !== typeof attr) {
+        return;
+      }
+      if (void 0 === value) {
+        return node.getAttribute(attr);
+      } else if ('string' === typeof attr) {
+        node.setAttribute(attr, value);
+        return node;
+      }
+    },
+    append: function(el) {
+      var node;
+      node = this;
+      node.appendChild(el);
+      return node;
+    },
+    height: function(height) {
+      var node;
+      node = this;
+      if (void 0 === height) {
+        if (isWindow(node)) {
+          height = node['innerHeight'];
+        } else {
+          height = node.offsetHeight;
+        }
+        return height;
+      } else {
+        height = "" + height;
+        node.style.height = height.replace('px', '') + 'px';
+        return node;
+      }
+    },
+    show: function() {
+      var node;
+      node = this;
+      style(node, "display", "block");
+      return node;
+    },
+    hide: function() {
+      var node;
+      node = this;
+      style(node, "display", "none");
       return node;
     }
-  };
+  });
 
-  Node.prototype.show = function() {
-    var node;
-    node = this;
-    style(node, "display", "block");
-    return node;
-  };
-
-  Node.prototype.hide = function() {
-    var node;
-    node = this;
-    style(node, "display", "none");
-    return node;
-  };
+  merge(NodeList.prototype, {
+    eq: function(i) {
+      var node;
+      node = this;
+      if (i < 0) {
+        return node[node.length - i];
+      } else {
+        return node[i];
+      }
+    }
+  });
 
   ["add", "has", "remove"].forEach(function(type) {
     return Node.prototype[type + "Class"] = (function(type) {

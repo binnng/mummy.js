@@ -227,7 +227,11 @@ camel(“-webkit-transform”) // webkitTransform</p>
             <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-title">camel</span> = <span class="hljs-params">(s)</span> -&gt;</span>
   <span class="hljs-string">"<span class="hljs-subst">#{s}</span>"</span>.replace(<span class="hljs-regexp">/^-/</span>, <span class="hljs-string">""</span>).replace(<span class="hljs-regexp">/-(\w)/g</span>, <span class="hljs-function"><span class="hljs-params">(all, letter)</span> -&gt;</span>
     letter.toUpperCase()
-  )</pre></div></div>
+  )
+<span class="hljs-function">
+<span class="hljs-title">merge</span> = <span class="hljs-params">(dest, src)</span> -&gt;</span>
+  <span class="hljs-keyword">for</span> name <span class="hljs-keyword">of</span> src
+    dest[name] = src[name]</pre></div></div>
             
         </li>
         
@@ -465,54 +469,59 @@ $.createElement(“div”, {“class”: “a”})</p>
 
   el
 
-<span class="hljs-attribute">Node</span>::html = <span class="hljs-function"><span class="hljs-params">(html)</span> -&gt;</span>
-  node = @
-  <span class="hljs-keyword">if</span> <span class="hljs-literal">undefined</span> <span class="hljs-keyword">is</span> html
-    node.innerHTML
-  <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> <span class="hljs-string">'string'</span> <span class="hljs-keyword">is</span> <span class="hljs-keyword">typeof</span> html
-    node.innerHTML = html
+merge <span class="hljs-attribute">Node</span>::, 
+
+  <span class="hljs-attribute">html</span>: <span class="hljs-function"><span class="hljs-params">(html)</span> -&gt;</span>
+    node = @
+    <span class="hljs-keyword">if</span> <span class="hljs-literal">undefined</span> <span class="hljs-keyword">is</span> html
+      node.innerHTML
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> <span class="hljs-string">'string'</span> <span class="hljs-keyword">is</span> <span class="hljs-keyword">typeof</span> html
+      node.innerHTML = html
+      node
+
+  <span class="hljs-attribute">attr</span>: <span class="hljs-function"><span class="hljs-params">(attr, value)</span> -&gt;</span>
+    node = @
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">if</span> <span class="hljs-string">'string'</span> <span class="hljs-keyword">isnt</span> <span class="hljs-keyword">typeof</span> attr
+    <span class="hljs-keyword">if</span> <span class="hljs-literal">undefined</span> <span class="hljs-keyword">is</span> value
+      node.getAttribute(attr)
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> <span class="hljs-string">'string'</span> <span class="hljs-keyword">is</span> <span class="hljs-keyword">typeof</span> attr
+      node.setAttribute attr, value
+      node
+
+  <span class="hljs-attribute">append</span>: <span class="hljs-function"><span class="hljs-params">(el)</span> -&gt;</span>
+    node = @
+    node.appendChild(el)
     node
 
-<span class="hljs-attribute">Node</span>::attr = <span class="hljs-function"><span class="hljs-params">(attr, value)</span> -&gt;</span>
-  node = @
-  <span class="hljs-keyword">return</span> <span class="hljs-keyword">if</span> <span class="hljs-string">'string'</span> <span class="hljs-keyword">isnt</span> <span class="hljs-keyword">typeof</span> attr
-  <span class="hljs-keyword">if</span> <span class="hljs-literal">undefined</span> <span class="hljs-keyword">is</span> value
-    node.getAttribute(attr)
-  <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> <span class="hljs-string">'string'</span> <span class="hljs-keyword">is</span> <span class="hljs-keyword">typeof</span> attr
-    node.setAttribute attr, value
-    node
-
-<span class="hljs-attribute">NodeList</span>::eq = <span class="hljs-function"><span class="hljs-params">(i)</span> -&gt;</span>
-  node = @
-  <span class="hljs-keyword">if</span> i &lt; <span class="hljs-number">0</span> <span class="hljs-keyword">then</span> node[node.length - i] <span class="hljs-keyword">else</span> node[i]
-
-<span class="hljs-attribute">Node</span>::append = <span class="hljs-function"><span class="hljs-params">(el)</span> -&gt;</span>
-  node = @
-  node.appendChild(el)
-  node
-
-<span class="hljs-attribute">Node</span>::height = <span class="hljs-function"><span class="hljs-params">(height)</span> -&gt;</span>
-  node = @
-  <span class="hljs-keyword">if</span> <span class="hljs-literal">undefined</span> <span class="hljs-keyword">is</span> height
-    <span class="hljs-keyword">if</span> isWindow(node)
-      height = node[<span class="hljs-string">'innerHeight'</span>]
+  <span class="hljs-attribute">height</span>: <span class="hljs-function"><span class="hljs-params">(height)</span> -&gt;</span>
+    node = @
+    <span class="hljs-keyword">if</span> <span class="hljs-literal">undefined</span> <span class="hljs-keyword">is</span> height
+      <span class="hljs-keyword">if</span> isWindow(node)
+        height = node[<span class="hljs-string">'innerHeight'</span>]
+      <span class="hljs-keyword">else</span>
+        height = node.offsetHeight
+      height
     <span class="hljs-keyword">else</span>
-      height = node.offsetHeight
-    height
-  <span class="hljs-keyword">else</span>
-    height = <span class="hljs-string">"<span class="hljs-subst">#{height}</span>"</span>
-    node.style.height = height.replace(<span class="hljs-string">'px'</span>, <span class="hljs-string">''</span>) + <span class="hljs-string">'px'</span>
+      height = <span class="hljs-string">"<span class="hljs-subst">#{height}</span>"</span>
+      node.style.height = height.replace(<span class="hljs-string">'px'</span>, <span class="hljs-string">''</span>) + <span class="hljs-string">'px'</span>
+      node
+
+  <span class="hljs-attribute">show</span>: <span class="hljs-function">-&gt;</span>
+    node = @
+    style(node, <span class="hljs-string">"display"</span>, <span class="hljs-string">"block"</span>)
     node
 
-<span class="hljs-attribute">Node</span>::show = <span class="hljs-function">-&gt;</span>
-  node = @
-  style(node, <span class="hljs-string">"display"</span>, <span class="hljs-string">"block"</span>)
-  node
+  <span class="hljs-attribute">hide</span>: <span class="hljs-function">-&gt;</span>
+    node = @
+    style(node, <span class="hljs-string">"display"</span>, <span class="hljs-string">"none"</span>)
+    node
 
-<span class="hljs-attribute">Node</span>::hide = <span class="hljs-function">-&gt;</span>
-  node = @
-  style(node, <span class="hljs-string">"display"</span>, <span class="hljs-string">"none"</span>)
-  node</pre></div></div>
+
+
+merge <span class="hljs-attribute">NodeList</span>::, 
+  <span class="hljs-attribute">eq</span>: <span class="hljs-function"><span class="hljs-params">(i)</span> -&gt;</span>
+    node = @
+    <span class="hljs-keyword">if</span> i &lt; <span class="hljs-number">0</span> <span class="hljs-keyword">then</span> node[node.length - i] <span class="hljs-keyword">else</span> node[i]</pre></div></div>
             
         </li>
         
@@ -524,11 +533,11 @@ $.createElement(“div”, {“class”: “a”})</p>
                 <a class="pilcrow" href="#section-24">&#182;</a>
               </div>
               <p>对class的操作
-支持传入单个class，也可以传入数组
+支持传入单个class，也可以传入空格分割的字符串
 hasClass中只有数组中class全部都有时才会返回true</p>
-<pre><code>el.hasClass([<span class="hljs-string">"a"</span>, <span class="hljs-string">"b"</span>])
+<pre><code>el.hasClass(<span class="hljs-string">"a b"</span>)
 el.hasClass(<span class="hljs-string">"a"</span>)
-el.addClass([<span class="hljs-string">"a"</span>, <span class="hljs-string">"b"</span>]);
+el.addClass(<span class="hljs-string">"a b"</span>);
 ...
 </code></pre>
             </div>
