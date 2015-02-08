@@ -8,7 +8,7 @@
     "event",
     "dom",
     "css",
-    "entry"
+    "footer"
   ],
   "ignore": [
     "node_modules",

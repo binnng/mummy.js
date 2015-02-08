@@ -1,6 +1,6 @@
 /*--------------------- Typography ----------------------------*/
 
-/*@font-face {
+@font-face {
     font-family: 'aller-light';
     src: url('public/fonts/aller-light.eot');
     src: url('public/fonts/aller-light.eot?#iefix') format('embedded-opentype'),
@@ -28,7 +28,7 @@
          url('public/fonts/novecento-bold.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
-}*/
+}
 
 /*--------------------- Layout ----------------------------*/
 html { height: 100%; }

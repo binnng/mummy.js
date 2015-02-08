@@ -24,13 +24,6 @@ NodeList::[TRIGGER] = (event) ->
 #为node对象添加on方法 
 window.on = Node::on = (event, fn) ->
   @addEventListener event, fn, false
-  
-  @
-
-
-#nodeList遍历添加
-NodeList::on = (event, fn) ->
-  @forEach (el) ->
-    el.on event, fn
 
   @
+
